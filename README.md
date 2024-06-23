@@ -1,4 +1,28 @@
 # radar
+## Quickstart
+### Step 1
+You can build the library, the example applications, and the tools using cmake. Simply create a build directory inside the Radar SDK directory, run cmake, and build the software:
+```
+mkdir build     # create build directory
+cd build        # change into the directory build
+cmake ..        # run cmake and generate build
+cmake --build . # build all targets
+```
+For more information about building the Radar SDK from source code see the page 
+“Building SDK from source code” in th
+
+### Step 2
+```
+cd ./build/examples/c/BGT60LTR11AIP/raw_data
+make
+```
+
+### Step 3
+```
+cd ./build/example/bin/BGT60LTR11AIP_raw_data_ltr11
+sudo ./BGT60LTR11AIP_raw_data_ltr11
+```
+(us `lsusb` to check if the device is correctly connected. Often times `Failed to open device: no compatible device found (IFX_ERROR_NO_DEVICE)` happens, just execute the command several times, it should work.)
 
 ## Radar SDK
 
@@ -76,15 +100,6 @@ Other platforms (especially on Linux) typically work as well. For these platform
 
 ## Quickstart
 ### C Library
-You can build the library, the example applications, and the tools using cmake. Simply create a build directory inside the Radar SDK directory, run cmake, and build the software:
-```
-mkdir build     # create build directory
-cd build        # change into the directory build
-cmake ..        # run cmake and generate build
-cmake --build . # build all targets
-```
-For more information about building the Radar SDK from source code see the page 
-“Building SDK from source code” in the
 
 ### Python Wrapper
 Make sure that you have Python 3.8 or above installed. The Python wheel of the SDK Python wrapper is in the directory libs/platform/ where platform corresponds to your operating system. Install the wheel using pip:

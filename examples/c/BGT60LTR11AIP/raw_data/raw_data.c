@@ -79,6 +79,63 @@
 ==============================================================================
 */
 
+/*
+==============================================================================
+Circular buffer
+==============================================================================
+*/
+#define SIZE 20
+
+ifx_Float_t cbuffer[SIZE];
+int front = -1, rear = -1;
+
+bool isFull() {
+    if ((front == rear + 1) || (front == 0 && rear == SIZE - 1)) return 1;
+    return 0;
+}
+
+bool isEmpty() {
+    if (front == -1) return 1;
+    return 0;
+}
+
+void enQueue(ifx_Float_t element) {
+    if (isFull())
+        printf("\n Queue is full!! \n");
+    else {
+        if (front == -1) front = 0;
+        rear = (rear + 1) % SIZE;
+        cbuffer[rear] = element;
+    }
+}
+
+void deQueue() {
+    // ifx_Float_t element;
+    if (isEmpty()) {
+        printf("\n Queue is empty !! \n");
+        // return (-1);
+    } else {
+        // element = cbuffer[front];
+        if (front == rear) {
+            front = -1;
+            rear = -1;
+        } 
+        // Q has only one element, so we reset the 
+        // queue after dequeing it. ?
+        else {
+            front = (front + 1) % SIZE;
+        }
+    }
+}
+
+ifx_Float_t cbuffer_mean(){
+    ifx_Float_t tmp = 0;
+    for (int i = 0; i < SIZE; i++){
+        tmp += cbuffer[i];
+    }
+    return tmp /= SIZE;
+}
+
 /**
  * @brief Helper function to process fetched frame
  *
@@ -88,10 +145,25 @@
  *
  * @param frame    frame data containing multiple samples (vector)
  */
+
 void process_frame(const ifx_Vector_C_t* frame)
 {
-    ifx_Float_t sum = ifx_complex_abs(ifx_vec_sum_c(frame));
-    printf("frame data sum: %g\n", sum);
+    ifx_Float_t tmp = ifx_complex_abs(ifx_vec_mean_c(frame)), cbm = cbuffer_mean();
+    ifx_Float_t gap = tmp - cbm;
+    // printf("%g\n", cbm);
+    if (gap < 0) gap *= -1;
+    if(isFull() && gap / cbm >= 0.3) {
+        printf("1\n");
+        deQueue();
+    }else if (isFull()){
+        printf("0\n");
+        deQueue();
+    }else{
+        printf("0\n");
+    }
+    enQueue(tmp);
+
+    // printf("frame data sum %g\n", tmp);
 }
 
 /*
@@ -142,9 +214,10 @@ int main(int argc, char** argv)
     }
 
     /* Fetch NUM_FETCHED_FRAMES number of frames */
-    for (int frame_number = 0; frame_number < NUM_FETCHED_FRAMES; frame_number++)
+    // for (int frame_number = 0; frame_number < NUM_FETCHED_FRAMES; frame_number++)
+    while(1)
     {
-        printf("Reading vector data (%d)\n", frame_number);
+        // printf("Reading vector data (%d)\n", frame_number);
 
         /* Get the time-domain data for the next frame. The function blocks
          * until the full frame is available and copy the data into the vector.
