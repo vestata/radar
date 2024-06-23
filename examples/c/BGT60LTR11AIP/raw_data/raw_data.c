@@ -84,7 +84,7 @@
 Circular buffer
 ==============================================================================
 */
-#define SIZE 20
+#define SIZE 12
 
 ifx_Float_t cbuffer[SIZE];
 int front = -1, rear = -1;
@@ -152,7 +152,7 @@ void process_frame(const ifx_Vector_C_t* frame)
     ifx_Float_t gap = tmp - cbm;
     // printf("%g\n", cbm);
     if (gap < 0) gap *= -1;
-    if(isFull() && gap / cbm >= 0.3) {
+    if(isFull() && gap / cbm >= 0.2) {
         printf("1\n");
         deQueue();
     }else if (isFull()){

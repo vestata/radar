@@ -13,13 +13,13 @@ For more information about building the Radar SDK from source code see the page
 
 ### Step 2
 ```
-cd ./build/examples/c/BGT60LTR11AIP/raw_data
+cd build/examples/c/BGT60LTR11AIP/raw_data
 make
 ```
 
 ### Step 3
 ```
-cd ./build/example/bin/BGT60LTR11AIP_raw_data_ltr11
+cd build/bin
 sudo ./BGT60LTR11AIP_raw_data_ltr11
 ```
 (us `lsusb` to check if the device is correctly connected. Often times `Failed to open device: no compatible device found (IFX_ERROR_NO_DEVICE)` happens, just execute the command several times, it should work.)
