@@ -1,6 +1,12 @@
 # radar
 ## Quickstart
+
 ### Step 1
+```
+git clone https://github.com/vestata/radar.git
+cd radar/
+```
+### Step 2
 You can build the library, the example applications, and the tools using cmake. Simply create a build directory inside the Radar SDK directory, run cmake, and build the software:
 ```
 mkdir build     # create build directory
@@ -8,21 +14,20 @@ cd build        # change into the directory build
 cmake ..        # run cmake and generate build
 cmake --build . # build all targets
 ```
-For more information about building the Radar SDK from source code see the page 
-“Building SDK from source code” in th
 
-### Step 2
+
+### Step 3
 ```
 cd build/examples/c/BGT60LTR11AIP/raw_data
 make
 ```
 
-### Step 3
+### Step 4
 ```
 cd build/bin
 sudo ./BGT60LTR11AIP_raw_data_ltr11
 ```
-(us `lsusb` to check if the device is correctly connected. Often times `Failed to open device: no compatible device found (IFX_ERROR_NO_DEVICE)` happens, just execute the command several times, it should work.)
+(us `lsusb` to check if the device is correctly connected. Often times `Failed to open device: no compatible device found (IFX_ERROR_NO_DEVICE)` happens, just execute the command several times, it should work. If it keeps failing then you have to unplug the device and plug it in again.)
 
 ## Radar SDK
 
