@@ -109,13 +109,13 @@ void enQueue(ifx_Float_t element) {
     }
 }
 
-void deQueue() {
-    // ifx_Float_t element;
+ifx_Float_t deQueue() {
+    ifx_Float_t element;
     if (isEmpty()) {
         printf("\n Queue is empty !! \n");
-        // return (-1);
+        return (-1);
     } else {
-        // element = cbuffer[front];
+        element = cbuffer[front];
         if (front == rear) {
             front = -1;
             rear = -1;
@@ -125,45 +125,8 @@ void deQueue() {
         else {
             front = (front + 1) % SIZE;
         }
+        return element;
     }
-}
-
-ifx_Float_t cbuffer_mean(){
-    ifx_Float_t tmp = 0;
-    for (int i = 0; i < SIZE; i++){
-        tmp += cbuffer[i];
-    }
-    return tmp /= SIZE;
-}
-
-/**
- * @brief Helper function to process fetched frame
- *
- * This function is an example showing a possible way
- * of processing the ifi and ifq signals by making a sum of the samples.
- * The goal in this example is to print the sum of samples given one frame.
- *
- * @param frame    frame data containing multiple samples (vector)
- */
-
-void process_frame(const ifx_Vector_C_t* frame)
-{
-    ifx_Float_t tmp = ifx_complex_abs(ifx_vec_mean_c(frame)), cbm = cbuffer_mean();
-    ifx_Float_t gap = tmp - cbm;
-    // printf("%g\n", cbm);
-    if (gap < 0) gap *= -1;
-    if(isFull() && gap / cbm >= 0.2) {
-        printf("1\n");
-        deQueue();
-    }else if (isFull()){
-        printf("0\n");
-        deQueue();
-    }else{
-        printf("0\n");
-    }
-    enQueue(tmp);
-
-    // printf("frame data sum %g\n", tmp);
 }
 
 /*
@@ -213,6 +176,7 @@ int main(int argc, char** argv)
         goto out;
     }
 
+    ifx_Float_t cbm = 0;
     /* Fetch NUM_FETCHED_FRAMES number of frames */
     // for (int frame_number = 0; frame_number < NUM_FETCHED_FRAMES; frame_number++)
     while(1)
@@ -236,7 +200,23 @@ int main(int argc, char** argv)
         }
 
         /* Process the frame. */
-        process_frame(vector);
+        ifx_Float_t tmp = ifx_complex_abs(ifx_vec_mean_c(vector)),n = tmp/SIZE;
+
+        ifx_Float_t gap = tmp - cbm;
+        if (gap < 0) gap *= -1;
+        if (isFull()){
+            // The threshold here can be adjusted.
+            if( gap / cbm >= 0.15 ){
+                printf("1\n");
+            }else{
+                printf("0\n");
+            }
+            cbm -= deQueue();
+        }else {
+            printf("0\n");
+        }
+        cbm += n;
+        enQueue(n);
     }
 
     /* Stop data acquisition */
