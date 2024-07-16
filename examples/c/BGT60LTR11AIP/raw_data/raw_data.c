@@ -137,6 +137,8 @@ ifx_Float_t deQueue() {
 
 int main(int argc, char** argv)
 {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
     ifx_Error_t error = IFX_OK;
     ifx_Ltr11_Device_t* device = NULL;
     ifx_Vector_C_t* vector = NULL;
