@@ -3,13 +3,21 @@
 
 ### Step 1
 ```
+git clone https://github.com/vestata/radar.git
+cd radar
+```
+
+### Step 2
+```
 make
 ```
 compiling may take some time...
 
-### Step 2
+### Step 3
 ```
 chmod +x run.sh
+```
+```
 ./run.sh
 ```
 run `./run.sh` to send data to server.py.
@@ -17,7 +25,7 @@ run `./run.sh` to send data to server.py.
 ### Change IP
 To modified the ip address, go to client.c to change the ip. Then use `make compile_client` to compile client.c.
 
-The sensor is easily unattached, use `lsusb` to check, if it keeps not found justy unplug and replug it.
+The sensor is easily unattached, use `lsusb` to check, if it keeps unfound justy unplug and replug it.
 
 ## Radar SDK
 
