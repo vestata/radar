@@ -3,31 +3,21 @@
 
 ### Step 1
 ```
-git clone https://github.com/vestata/radar.git
-cd radar/
-```
-### Step 2
-You can build the library, the example applications, and the tools using cmake. Simply create a build directory inside the Radar SDK directory, run cmake, and build the software:
-```
-mkdir build     # create build directory
-cd build        # change into the directory build
-cmake ..        # run cmake and generate build
-cmake --build . # build all targets
-```
-
-
-### Step 3
-```
-cd build/examples/c/BGT60LTR11AIP/raw_data
 make
 ```
+compiling may take some time...
 
-### Step 4
+### Step 2
 ```
-cd build/bin
-sudo ./BGT60LTR11AIP_raw_data_ltr11
+chmod +x run.sh
+./run.sh
 ```
-(us `lsusb` to check if the device is correctly connected. Often times `Failed to open device: no compatible device found (IFX_ERROR_NO_DEVICE)` happens, just execute the command several times, it should work. If it keeps failing then you have to unplug the device and plug it in again.)
+run `./run.sh` to send data to server.py.
+
+### Change IP
+To modified the ip address, go to client.c to change the ip. Then use `make compile_client` to compile client.c.
+
+The sensor is easily unattached, use `lsusb` to check, if it keeps not found justy unplug and replug it.
 
 ## Radar SDK
 
