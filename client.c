@@ -94,12 +94,17 @@ int main(void) {
             buffer[n - 1] = '\0';
             n--;
         }
+		
+		if (global_wsi != NULL) {
+            // 構建 JSON 格式字串
+            char json_msg[256]; // 假設最大長度為 256
+            snprintf(json_msg, sizeof(json_msg), "{\"radar_value\": \"%s\"}", buffer);
 
-        if (global_wsi != NULL) {
-            unsigned char msg[LWS_SEND_BUFFER_PRE_PADDING + 128 + LWS_SEND_BUFFER_POST_PADDING];
-            memcpy(&msg[LWS_SEND_BUFFER_PRE_PADDING], buffer, n);
-            lws_write(global_wsi, &msg[LWS_SEND_BUFFER_PRE_PADDING], n, LWS_WRITE_TEXT);
-            lws_callback_on_writable(global_wsi); // 触发写事件
+            unsigned char msg[LWS_SEND_BUFFER_PRE_PADDING + 256 + LWS_SEND_BUFFER_POST_PADDING];
+            size_t json_len = strlen(json_msg);
+            memcpy(&msg[LWS_SEND_BUFFER_PRE_PADDING], json_msg, json_len);
+            lws_write(global_wsi, &msg[LWS_SEND_BUFFER_PRE_PADDING], json_len, LWS_WRITE_TEXT);
+            lws_callback_on_writable(global_wsi); // 觸發寫事件
         }
 
         lws_service(context, 1000);
