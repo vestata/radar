@@ -3,17 +3,22 @@
 
 ### Step 1
 ```
+sudo apt-get install libwebsockets-dev
+```
+
+### Step 2
+```
 git clone https://github.com/vestata/radar.git
 cd radar
 ```
 
-### Step 2
+### Step 3
 ```
 make
 ```
 compiling may take some time...
 
-### Step 3
+### Step 4
 ```
 chmod +x run.sh
 ```
