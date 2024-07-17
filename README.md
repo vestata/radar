@@ -3,7 +3,9 @@
 
 ### Step 1
 ```
+sudo apt update
 sudo apt-get install libwebsockets-dev
+sudo apt install cmake
 ```
 
 ### Step 2
